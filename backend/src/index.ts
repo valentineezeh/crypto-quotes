@@ -2,19 +2,22 @@ import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from '@apollo/server/standalone'
 import * as dotenv from 'dotenv';
 
+import { resolvers } from './resolvers'
+import { schema } from "./schema";
+import { ApiHandler } from './datasources/apiHandler'
 
 dotenv.config()
 
 interface ContextValue {
   apiKey: string;
   dataSources: {
-    apiHandler: () => null;
+    apiHandler: ApiHandler;
   };
 }
 
 const server = new ApolloServer<ContextValue>({
-  typeDefs: '',
-  resolvers: {},
+  typeDefs: schema,
+  resolvers,
 });
 
 const { url } = await startStandaloneServer(server, {
@@ -24,7 +27,8 @@ const { url } = await startStandaloneServer(server, {
     return {
       apiKey,
       dataSources: {
-        apiHandler: () => null
+        apiHandler: new ApiHandler({ cache, apiKey })
+      }
     }
   }
 })
