@@ -5,6 +5,7 @@ import * as dotenv from 'dotenv';
 import { resolvers } from './resolvers'
 import { schema } from "./schema";
 import { ApiHandler } from './datasources/apiHandler'
+import { logger } from './logger'
 
 dotenv.config()
 
@@ -21,7 +22,8 @@ const server = new ApolloServer<ContextValue>({
 });
 
 const { url } = await startStandaloneServer(server, {
-  context: async() => {
+  context: async({ req }) => {
+    logger.info(`Received request: ${req.method} ${req.url}`)
     const apiKey = process.env.API_KEY;
     const { cache } = server;
     return {
@@ -30,7 +32,7 @@ const { url } = await startStandaloneServer(server, {
         apiHandler: new ApiHandler({ cache, apiKey })
       }
     }
-  }
+  },
 })
 
-console.log(`Server is ready at ${url}`)
+logger.info(`Server is ready at ${url}`)
