@@ -23,7 +23,10 @@ const server = new ApolloServer<ContextValue>({
 
 const { url } = await startStandaloneServer(server, {
   context: async({ req }) => {
-    logger.info(`Received request: ${req.method} ${req.url}`)
+    if (req) {
+      logger.info(`Received request: ${req.method} ${req.url}`);
+    }
+
     const apiKey = process.env.API_KEY;
     const { cache } = server;
     return {
@@ -33,6 +36,7 @@ const { url } = await startStandaloneServer(server, {
       }
     }
   },
+  listen: { port: 5000 }
 })
 
 logger.info(`Server is ready at ${url}`)
