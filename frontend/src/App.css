@@ -1,0 +1,133 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 6rem;
+  min-height: 100vh;
+  background-color: #0c3756;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  max-width: 500px;
+  /* 30vw; */
+  border: 1px solid #D9D9D9;
+  border-radius: 5px;
+  background-color: white;
+  padding: 20px;
+}
+
+.container img {
+  position: relative;
+  margin: 0px auto;
+  width: 100%;
+  height: auto;
+}
+
+.container label {
+  color: black;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.container input {
+  width: 100%;
+  height: 60px;
+  margin: 8px 0;
+  display: inline-block;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+  color: #0c3756;
+  font-size: 16px;
+}
+
+.button {
+  width: 100%;
+  background-color: #0c3756;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 40px;
+  height: 50px;
+  font-size: 16px;
+}
+
+.dropdown-container {
+  margin: 30px 0;
+}
+
+.select-dropdown {
+  width: 100%;
+  height: 60px;
+  margin: 8px 0;
+  display: inline-block;
+  padding: 20px 20px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+  color: #0c3756;
+  font-size: 16px;
+}
+
+.dropDown-option {
+  max-height: 200;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  position: absolute;
+  width: 30vh;
+  z-index: 1;
+  background: white;
+}
+
+.list {
+  border: 1px solid #ccc;
+  display: flex;
+  gap: 10px;
+}
+
+.listItem {
+  padding: 8px 12px;
+  margin: 4px 0;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.listItem:hover {
+  background-color: #0c3756;
+  color: white;
+}
+
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: white;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 1s linear infinite;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+}
+
+.error {
+  color: red;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
