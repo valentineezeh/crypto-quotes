@@ -21,6 +21,8 @@ const server = new ApolloServer<ContextValue>({
   resolvers,
 });
 
+const port = Number(process.env.PORT) || 5000
+
 const { url } = await startStandaloneServer(server, {
   context: async({ req }) => {
     if (req) {
@@ -36,7 +38,7 @@ const { url } = await startStandaloneServer(server, {
       }
     }
   },
-  listen: { port: 5000 }
+  listen: { port }
 })
 
 logger.info(`Server is ready at ${url}`)

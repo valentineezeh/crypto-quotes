@@ -12,8 +12,10 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
+const url = process.env.REACT_APP_API_ENDPOINT || "http://localhost:5000"
+
 const client = new ApolloClient({
-  uri: "http://localhost:5000",
+  uri: url,
   cache: new InMemoryCache(),
   defaultOptions: {
     watchQuery: {
