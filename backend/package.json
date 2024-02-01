@@ -1,0 +1,31 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile": "tsc",
+    "start": "npm run compile && nodemon --experimental-specifier-resolution=node ./dist/index.js"
+  },
+  "keywords": [],
+  "author": "valentine ezeh <val.ezeh15@gmail.com>",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@apollo/datasource-rest": "^6.2.2",
+    "@apollo/server": "^4.10.0",
+    "@apollo/utils.keyvaluecache": "^3.1.0",
+    "@types/nodemailer": "^6.4.14",
+    "dotenv": "^16.4.1",
+    "graphql": "^16.8.1",
+    "graphql-tag": "^2.12.6",
+    "nodemailer": "^6.9.8",
+    "nodemon": "^3.0.3",
+    "ts-node": "^10.9.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.13",
+    "typescript": "^5.3.3"
+  }
+}
