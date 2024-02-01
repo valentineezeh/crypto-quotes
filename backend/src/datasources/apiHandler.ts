@@ -14,7 +14,7 @@ type mailOptionsType = {
 dotenv.config();
 
 export class ApiHandler extends RESTDataSource {
-  override baseURL = "https://pro-api.coinmarketcap.com";
+  override baseURL = process.env.API_ENDPOINT;
   private apiKey: string;
 
   constructor(options: { apiKey: string; cache: KeyValueCache }){
@@ -34,9 +34,7 @@ export class ApiHandler extends RESTDataSource {
 
   async getCryptoQuotesById(cryptoCodeId: string) {
     const resp = await this.get(`/v1/cryptocurrency/quotes/latest?id=${cryptoCodeId}`)
-
       const data = formatDataPayload(resp.data)
-
       return data;
   }
 
