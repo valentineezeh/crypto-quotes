@@ -1,4 +1,5 @@
 import { emailTemplate } from './services/emailTemplate'
+import { calculatePricesInCurrencies } from './datasources/utils'
 
 export const resolvers = {
   Query: {
@@ -21,9 +22,30 @@ export const resolvers = {
   Mutation: {
     subscribeForCryptoQuotes:  async (_, { email, id }, { dataSources }) => {
       try {
+
+        const getCurrencyLatestRate = await dataSources.apiConverterHandler.getCurrencyLatestRate()
+
+        if(!getCurrencyLatestRate) {
+          return {
+            message:  'Result not found.',
+            success: false,
+            errorCheck: {}
+          }
+        }
+
         const getCryptoQuotes = await dataSources.apiHandler.getCryptoQuotesById(id)
 
-        const composeEmailBody = emailTemplate(getCryptoQuotes)
+        if(getCryptoQuotes.length === 0) {
+          return {
+            message:  'No such cryptocurrency found.',
+            success: false,
+            errorCheck: {}
+          }
+        }
+
+        const  currencyData = calculatePricesInCurrencies(getCryptoQuotes, getCurrencyLatestRate)
+
+        const composeEmailBody = emailTemplate(currencyData)
 
         const  options = {
           from: process.env.EMAIL_USER,

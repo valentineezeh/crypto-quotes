@@ -34,11 +34,30 @@ export class ApiHandler extends RESTDataSource {
 
   async getCryptoQuotesById(cryptoCodeId: string) {
     const resp = await this.get(`/v1/cryptocurrency/quotes/latest?id=${cryptoCodeId}`)
+
       const data = formatDataPayload(resp.data)
       return data;
   }
 
   async sendEmail(mailOptions: mailOptionsType) {
     return await transporter.sendMail(mailOptions)
+  }
+}
+
+export class ApiConverterHandler extends RESTDataSource {
+  override baseURL = process.env.API_CONVERTER_HANDLER;
+  private converterApiKey: string
+
+  constructor(options: {  converterApiKey: string; cache: KeyValueCache }){
+    super(options);
+    this.converterApiKey = options.converterApiKey
+  }
+
+  async getCurrencyLatestRate(){
+    const currencies = 'GBP, EUR, BRL, GBP, AUD, USD';
+    const baseCurrency = 'EUR'
+    const resp = await this.get(`/v1/latest?access_key=${this.converterApiKey}&base=${baseCurrency}&symbols=${currencies}`)
+
+    return resp.rates
   }
 }

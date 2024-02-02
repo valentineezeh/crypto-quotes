@@ -35,3 +35,16 @@ export const formatDataPayload = (data) => {
 
   return mergedQuotes
 }
+
+export const calculatePricesInCurrencies = (data: any, rates: any) => {
+  const result = [];
+  data.forEach((item: any) => {
+    Object.entries(rates).forEach(([currency, rate]) => {
+      const newItem = { ...item };
+      newItem.currency = currency;
+      newItem.price = item.price * Number(rate);
+      result.push(newItem);
+    });
+  });
+  return result;
+};

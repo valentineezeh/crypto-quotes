@@ -4,8 +4,9 @@ import * as dotenv from 'dotenv';
 
 import { resolvers } from './resolvers'
 import { schema } from "./schema";
-import { ApiHandler } from './datasources/apiHandler'
+import { ApiHandler, ApiConverterHandler } from './datasources/apiHandler'
 import { logger } from './logger'
+import pool from './database/connection'
 
 dotenv.config()
 
@@ -30,11 +31,15 @@ const { url } = await startStandaloneServer(server, {
     }
 
     const apiKey = process.env.API_KEY;
+    const converterApiKey = process.env.API_CONVERTER_HANDLER_API_KEY
     const { cache } = server;
     return {
+      db: pool,
+      converterApiKey,
       apiKey,
       dataSources: {
-        apiHandler: new ApiHandler({ cache, apiKey })
+        apiHandler: new ApiHandler({ cache, apiKey }),
+        apiConverterHandler: new ApiConverterHandler({ cache, converterApiKey })
       }
     }
   },

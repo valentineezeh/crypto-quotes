@@ -12,7 +12,8 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-const url = process.env.REACT_APP_API_ENDPOINT || "http://localhost:5000"
+const url = "http://localhost:5000"
+// process.env.REACT_APP_API_ENDPOINT ||
 
 const client = new ApolloClient({
   uri: url,
