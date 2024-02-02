@@ -1,5 +1,4 @@
-import { emailTemplate } from './services/emailTemplate'
-import { calculatePricesInCurrencies } from './datasources/utils'
+import { saveUser } from './controller'
 
 export const resolvers = {
   Query: {
@@ -21,52 +20,17 @@ export const resolvers = {
   },
   Mutation: {
     subscribeForCryptoQuotes:  async (_, { email, id }, { dataSources }) => {
-      try {
+      const { success, message, errorCheck } = await saveUser({id, email})
 
-        const getCurrencyLatestRate = await dataSources.apiConverterHandler.getCurrencyLatestRate()
-
-        if(!getCurrencyLatestRate) {
-          return {
-            message:  'Result not found.',
-            success: false,
-            errorCheck: {}
-          }
-        }
-
-        const getCryptoQuotes = await dataSources.apiHandler.getCryptoQuotesById(id)
-
-        if(getCryptoQuotes.length === 0) {
-          return {
-            message:  'No such cryptocurrency found.',
-            success: false,
-            errorCheck: {}
-          }
-        }
-
-        const  currencyData = calculatePricesInCurrencies(getCryptoQuotes, getCurrencyLatestRate)
-
-        const composeEmailBody = emailTemplate(currencyData)
-
-        const  options = {
-          from: process.env.EMAIL_USER,
-          to: email,
-          subject: 'Knab Crypto Quotes',
-          html: composeEmailBody
-        }
-
-        await dataSources.apiHandler.sendEmail(options)
+      if(!success) {
         return {
-          message:  `Email sent! Crypto Quote has successfully be sent to this email ${email}.`,
-          success: true,
-          errorCheck: {}
-        }
-      } catch(error) {
-        return {
-          message: `Failed to send email to this email ${email}`,
-          success: false,
-          errorCheck: error.message
+          success,
+          message,
+          errorCheck
         }
       }
+
+      return await dataSources.apiHandler.subscribeToCryptoQuotes({ id, email })
     },
   }
 }
