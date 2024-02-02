@@ -1,10 +1,10 @@
 import pool from '../database/connection'
 
-export const saveUser = async({ id, email }) => {
+export const saveSubscribeUsers = async({ id, email }) => {
   try {
 
     const findUserQuery = `
-    SELECT 1 FROM cryptoUsers WHERE cryptoID = $1 and email = $2
+    SELECT 1 FROM SubscribeUsers WHERE cryptoID = $1 and email = $2
     `;
 
     const findExitingData = await pool.query(findUserQuery, [id, email])
@@ -18,15 +18,15 @@ export const saveUser = async({ id, email }) => {
     }
 
     const query = `
-    INSERT INTO cryptoUsers (cryptoID, email)
+    INSERT INTO SubscribeUsers (cryptoID, email)
     VALUES ($1, $2)
     RETURNING *;
     `
-    const  user = await pool.query(query, [id, email])
+    const subscribeUser = await pool.query(query, [id, email])
     return {
-      data: user.rows[0],
+      data: subscribeUser.rows[0],
       success: true,
-      message:  "The user was added successfully.",
+      message:  "You have successfully subscribe to getting quotes.",
       errorCheck: {}
     }
   } catch(error){

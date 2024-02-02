@@ -1,4 +1,22 @@
-import { saveUser } from './controller'
+import { saveSubscribeUsers } from './controller'
+import { authenticateGoogle, generateToken } from './utils'
+
+type Google_Json_Type = {
+  _json: {
+    email: string;
+  given_name: string;
+  family_name: string;
+  }
+}
+
+type GoogleProfile = {
+  profile: Google_Json_Type
+}
+
+type AuthData = {
+  data: GoogleProfile;
+  info: { code: string };
+}
 
 export const resolvers = {
   Query: {
@@ -20,7 +38,7 @@ export const resolvers = {
   },
   Mutation: {
     subscribeForCryptoQuotes:  async (_, { email, id }, { dataSources }) => {
-      const { success, message, errorCheck } = await saveUser({id, email})
+      const { success, message, errorCheck } = await saveSubscribeUsers({id, email})
 
       if(!success) {
         return {
@@ -32,5 +50,70 @@ export const resolvers = {
 
       return await dataSources.apiHandler.subscribeToCryptoQuotes({ id, email })
     },
+    signUpGoogle: async (_, { accessToken }, ctx) => {
+      const { db, res, req } = ctx
+      const { pool } = db;
+
+      req.body = {
+        ...req.body,
+        accessToken
+      }
+
+      console.log('req.body >>>> ', req.body)
+
+      try {
+        const { data, info } = await authenticateGoogle(req, res) as AuthData
+
+        if(info) {
+          switch (info.code) {
+            case 'ETIMEOUT': throw new Error('Failed to reach google: Try again');
+            default:
+              throw new Error('Something went wrong')
+          }
+        }
+
+        const _json = data.profile._json;
+        const { email } = _json;
+        const firstName = _json.given_name;
+        const lastName = _json.family_name;
+
+        let accessToken = '';
+        let refreshToken = '';
+
+        const query = `
+        SELECT 1 FROM users WHERE email = $1
+        `
+
+        const userExist = await pool.query(query, [email])
+
+        if(userExist.rows[0]) {
+          return {
+            success: false,
+            message: "User already exist.",
+            errorCheck: {}
+          }
+        }
+
+        const createQuery = `
+          INSERT INTO Users (email, firstName, lastName)
+          VALUES ($1, $2, $3)
+          RETURNING *;
+          `
+
+      await pool.query(createQuery, [email.toLowerCase(), firstName, lastName])
+
+      accessToken = await generateToken(userExist.rows[0].id);
+      refreshToken = await generateToken(userExist.rows[0].id, true);
+
+        return {
+          accessToken: `Bearer ${accessToken}`,
+          refreshToken: `Bearer ${refreshToken}`
+        }
+
+      } catch(error) {
+        console.log('error >>>>> ', error)
+        return error
+      }
+    }
   }
 }

@@ -1,9 +1,9 @@
 import type { KeyValueCache } from '@apollo/utils.keyvaluecache';
 import { RESTDataSource, AugmentedRequest } from '@apollo/datasource-rest'
 import { transporter } from '../services/emaiTransporter'
-import { formatDataPayload } from './utils'
+import { formatDataPayload } from '../utils'
 import * as dotenv from 'dotenv';
-import { calculatePricesInCurrencies } from '../datasources/utils'
+import { calculatePricesInCurrencies } from '../utils'
 import { emailTemplate } from '../services/emailTemplate'
 
 type mailOptionsType = {

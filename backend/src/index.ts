@@ -25,7 +25,7 @@ const server = new ApolloServer<ContextValue>({
 const port = Number(process.env.PORT) || 5000
 
 const { url } = await startStandaloneServer(server, {
-  context: async({ req }) => {
+  context: async({ req, res }) => {
     if (req) {
       logger.info(`Received request: ${req.method} ${req.url}`);
     }
@@ -34,6 +34,8 @@ const { url } = await startStandaloneServer(server, {
     const converterApiKey = process.env.API_CONVERTER_HANDLER_API_KEY
     const { cache } = server;
     return {
+      req,
+      res,
       db: pool,
       converterApiKey,
       apiKey,

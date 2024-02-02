@@ -19,11 +19,24 @@ export const schema = gql`
     errorCheck: JSON
   }
 
+  type User {
+    id: ID!,
+    name: String!,
+    email: String!,
+    password: String!
+  }
+
+  type AuthResponse {
+    accessToken:String!
+    refreshToken: String!
+  }
+
   type Query {
     cryptoCurrencies: CryptoCurrencies
   }
 
   type Mutation {
     subscribeForCryptoQuotes(email: String!, id: String!): SubscribeForCryptoQuotesResult
+    signUpGoogle(accessToken: String!): AuthResponse
   }
 `
