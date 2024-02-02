@@ -5,11 +5,11 @@ import { Form } from './component/Form'
 const App = () => {
 
   return (
-    <main className='main'>
-    <div className='container'>
-      <img src={Logo} alt='logo' />
-        <Form />
-    </div>
+    <main className='main' data-testid='main'>
+      <div className='container'>
+        <img src={Logo} alt='logo' />
+          <Form />
+      </div>
   </main>
   );
 }

@@ -13,6 +13,7 @@ type Options = {
   setSelectedOption:  (selectedOption: SelectedOptionsProps) => void;
   selectedOption: SelectedOptionsProps,
   error: string
+  setValue?: (value: string) => void;
 }
 
 type RenderOptionProps = {
@@ -24,10 +25,17 @@ export const LargeSelect = ({
   options,
   setSelectedOption,
   selectedOption,
-  error
+  error,
+  setValue
 }: Options) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const selectRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if(setValue) {
+      setValue(selectedOption.value.toString())
+    }
+  }, [setValue, selectedOption])
 
   useEffect(() => {
     const handleOnClickOutside = (e: MouseEvent) => {
@@ -56,23 +64,28 @@ export const LargeSelect = ({
   };
 
   const renderOption: React.FC<RenderOptionProps> = ({ index, style }) => (
-    <div className='listItem' key={options![index].id} style={style} onClick={() => handleOptionClick(options![index])}>
+    <div className='listItem' data-testid='listItem' key={options![index].id} style={style} onClick={() => handleOptionClick(options![index])}>
       {options![index].name} - {options![index].symbol}
     </div>
   );
 
 
   return (
-    <div className='dropdown-container'>
+    <div className='dropdown-container' data-testid='dropdown-container'>
       <label htmlFor="email">Select crypto type: </label>
       <div
         onClick={toggleDropdown}
         className='select-dropdown'
+        data-testid='select-dropdown'
         >
         {selectedOption.value === 0 ?  'Select a crypto' : `${selectedOption.name} - ${selectedOption.symbol}`}
       </div>
       {isOpen && (
-        <div className='dropDown-option' ref={selectRef}>
+        <div
+          className='dropDown-option'
+          ref={selectRef}
+          data-testid='dropDown-option'
+          >
           <List
             className='list'
             height={200}
