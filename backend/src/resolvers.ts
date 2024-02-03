@@ -105,6 +105,9 @@ export const resolvers = {
       accessToken = await generateToken(userExist.rows[0].id);
       refreshToken = await generateToken(userExist.rows[0].id, true);
 
+      console.log('accessToken >>>> ', accessToken)
+      console.log('refreshToken >?>>>> ', refreshToken)
+
         return {
           accessToken: `Bearer ${accessToken}`,
           refreshToken: `Bearer ${refreshToken}`
@@ -112,7 +115,11 @@ export const resolvers = {
 
       } catch(error) {
         console.log('error >>>>> ', error)
-        return error
+        return {
+          data: [],
+          success: false,
+          errorCheck: error
+        }
       }
     }
   }
