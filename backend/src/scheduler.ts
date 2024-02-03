@@ -30,7 +30,7 @@ export const setupCronJob = () => {
             email: user.email
           });
         } catch (error) {
-          console.error(`Error sending email to ${user.email}:`, error);
+          logger.info('Error sending email to ${user.email}: ', error);
           continue;
         }
       }
