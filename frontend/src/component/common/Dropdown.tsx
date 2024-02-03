@@ -64,7 +64,10 @@ export const LargeSelect = ({
   };
 
   const renderOption: React.FC<RenderOptionProps> = ({ index, style }) => (
-    <div className='listItem' data-testid='listItem' key={options![index].id} style={style} onClick={() => handleOptionClick(options![index])}>
+    <div className='listItem' data-testid='listItem' key={options![index].id} style={style} onClick={() => {
+      handleOptionClick(options![index])
+      setIsOpen(false)
+      }}>
       {options![index].name} - {options![index].symbol}
     </div>
   );

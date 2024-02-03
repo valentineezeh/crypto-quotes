@@ -44,9 +44,11 @@ export const getUser = async (token: string) => {
   const findUserQuery = `
     SELECT 1 FROM cryptoUsers WHERE email = $1
     `;
-  const  { email } = jwt.verify(token, process.env.SECRET)
+  const  decodeValue = jwt.verify(token, process.env.SECRET)
+
   try {
-    const user = await pool.query(findUserQuery, [email]);
+    const user = await pool.query(findUserQuery, [decodeValue.payload.userId]);
+
     if(!user.rows[0]){
       return {
         success : false,

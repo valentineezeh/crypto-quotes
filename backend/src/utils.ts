@@ -55,13 +55,10 @@ export const calculatePricesInCurrencies = (data: any, rates: any) => {
 };
 
 
-export const generateToken = async (userId, isRefreshToken = false) => {
-  const payload = {
-    userId,
-    type: isRefreshToken ? 'refresh' : 'access'
-  }
+export const generateToken = async (userId) => {
+  const payload = { userId }
 
-  const expiresIn = isRefreshToken ? process.env.REFRESH_TOKEN_EXPIRATION : process.env.ACCESS_TOKEN_EXPIRATION;
+  const expiresIn = process.env.ACCESS_TOKEN_EXPIRATION
 
   const token = jwt.sign({
     payload }, process.env.SECRET, { expiresIn })

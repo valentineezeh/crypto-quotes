@@ -21,7 +21,6 @@ export const schema = gql`
 
   type AuthResponse {
     accessToken: String!
-    refreshToken: String!
     success: Boolean
     errorCheck: JSON
   }

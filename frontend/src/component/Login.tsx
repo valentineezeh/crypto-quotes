@@ -35,7 +35,7 @@ const handleGoogleLogin = useGoogleLogin({
       })
     }
   },
-  onError: (error) => {
+  onError: () => {
     toast.error('Login was not successful')
   },
   })

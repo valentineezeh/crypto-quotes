@@ -47,7 +47,6 @@ export const resolvers = {
       if (!data) {
         return {
           accessToken: ``,
-          refreshToken: ``,
           errorCheck: { message: 'Failed to reach Google. Try again later.'},
           success: false
         }
@@ -63,7 +62,6 @@ export const resolvers = {
       const lastName = family_name
 
       let access_Token = '';
-      let refreshToken = '';
 
       const query = `
         SELECT 1 FROM cryptoUsers WHERE email = $1
@@ -71,12 +69,10 @@ export const resolvers = {
         const userExist = await db.query(query, [email])
 
         access_Token = await generateToken(email);
-        refreshToken = await generateToken(email, true);
 
         if(userExist.rows[0]) {
           return {
-            accessToken: `Bearer ${access_Token}`,
-            refreshToken: `Bearer ${refreshToken}`,
+            accessToken: `${access_Token}`,
             errorCheck: {},
             success: true
           }
@@ -93,7 +89,6 @@ export const resolvers = {
       if(!newUser.rows[0]){
         return {
           accessToken: '',
-          refreshToken: '',
           errorCheck: {
             message: 'Error saving user in the DB'
           },
@@ -102,15 +97,13 @@ export const resolvers = {
       }
 
       return {
-        accessToken: `Bearer ${access_Token}`,
-        refreshToken: `Bearer ${refreshToken}`,
+        accessToken: `${access_Token}`,
         errorCheck: {},
         success: true
       }
       } catch(error) {
         return {
           accessToken: '',
-          refreshToken: '',
           errorCheck: error,
           success: false,
         }

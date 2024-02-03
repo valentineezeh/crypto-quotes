@@ -27,7 +27,6 @@ export const SIGN_UP_GOOGLE = gql `
   mutation signUpGoogle ($accessToken: String!) {
     signUpGoogle(accessToken: $accessToken) {
         accessToken
-        refreshToken
         errorCheck
         success
     }

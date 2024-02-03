@@ -15,8 +15,7 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-const httpLink = createHttpLink({ uri: "http://localhost:5000" })
-// process.env.REACT_APP_API_ENDPOINT ||
+const httpLink = createHttpLink({ uri: process.env.REACT_APP_API_ENDPOINT || "http://localhost:5000" })
 
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem('accessToken');
@@ -42,7 +41,7 @@ const client = new ApolloClient({
 root.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
-      <GoogleOAuthProvider clientId='275342734926-ecck0q00r55ala4o522f248t42dpp4mq.apps.googleusercontent.com'>
+      <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID ?? ''}>
         <App />
       </GoogleOAuthProvider>
       <ToastContainer />
