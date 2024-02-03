@@ -81,7 +81,7 @@ export const resolvers = {
         let refreshToken = '';
 
         const query = `
-        SELECT 1 FROM users WHERE email = $1
+        SELECT 1 FROM CryptoUsers WHERE email = $1
         `
 
         const userExist = await pool.query(query, [email])
@@ -95,7 +95,7 @@ export const resolvers = {
         }
 
         const createQuery = `
-          INSERT INTO Users (email, firstName, lastName)
+          INSERT INTO CryptoUsers (email, firstName, lastName)
           VALUES ($1, $2, $3)
           RETURNING *;
           `
