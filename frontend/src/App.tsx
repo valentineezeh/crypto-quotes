@@ -1,16 +1,21 @@
+import { lazy,  Suspense } from 'react';
+import { Routes, Route, BrowserRouter } from "react-router-dom"
 import './App.css';
-import Logo from './KNAB.png'
-import { Form } from './component/Form'
+
+const LoginPage = lazy(() => import('./pages/LoginPage'))
+const SubscriptionPage = lazy(() => import('./pages/SubscriptionPage'))
 
 const App = () => {
 
   return (
-    <main className='main' data-testid='main'>
-      <div className='container'>
-        <img src={Logo} alt='logo' />
-          <Form />
-      </div>
-  </main>
+    <BrowserRouter>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Routes>
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/crypto-quotes" element={<SubscriptionPage />} />
+        </Routes>
+      </Suspense>
+    </BrowserRouter>
   );
 }
 

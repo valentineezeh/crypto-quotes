@@ -8,6 +8,7 @@ import {
   Input,
 } from './common'
 import { GET_CRYPTO_CURRENCIES,  SUBSCRIBE_FOR_CRYPTO_QUOTES } from '../queries'
+import { ButtonLoader } from './common/ButtonLoader'
 
 
 export type InputType = {
@@ -45,6 +46,8 @@ export const Form = () => {
   const [ subscribeToCryptoQuotes, { loading } ] = useMutation(SUBSCRIBE_FOR_CRYPTO_QUOTES)
 
   const options = cryptoData?.cryptoCurrencies?.data || []
+
+
 
   return (
     <form onSubmit={handleSubmit((data) => {
@@ -86,16 +89,13 @@ export const Form = () => {
         selectedOption={selectedOption}
         error={selectedOption.error ? 'This field is required': ''}
       />
-      <button className='button'>
-        {
-          loading ? (
-            <div className='spinner-container'>
-              <div className="spinner" />
-            </div>
-              ) : 'Submit'
-        }
-      </button>
-
+      {
+        loading ? <ButtonLoader /> : (
+          <button className='button'>
+            Submit
+          </button>
+        )
+      }
     </form>
   )
 }

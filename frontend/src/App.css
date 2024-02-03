@@ -126,6 +126,13 @@
   color: red;
 }
 
+.google-login-button {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  align-items: center;
+}
+
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }

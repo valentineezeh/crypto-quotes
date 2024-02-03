@@ -7,6 +7,8 @@ import 'react-toastify/dist/ReactToastify.css'
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {  ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
+import { GoogleOAuthProvider } from '@react-oauth/google'
+
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -29,7 +31,9 @@ const client = new ApolloClient({
 root.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
+      <GoogleOAuthProvider clientId={'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'}>
         <App />
+      </GoogleOAuthProvider>
       <ToastContainer />
     </ApolloProvider>
   </React.StrictMode>
