@@ -12,7 +12,7 @@ const apiConverterHandler = new ApiHandler({
 });
 
 export const setupCronJob = () => {
-  const task = cron.schedule('*/2 * * * *', async () => {
+  const task = cron.schedule('0 0 * * *', async () => {
     logger.info('Scheduler has started running...');
     try {
       const result = await findAllSubscribedUsers()
@@ -24,15 +24,11 @@ export const setupCronJob = () => {
       }
 
       for (const user of users) {
-        console.log(user)
-        // Call the new function
         try {
-          const sam = await apiConverterHandler.subscribeToCryptoQuotes({
+          await apiConverterHandler.subscribeToCryptoQuotes({
             id: user.cryptoid,
             email: user.email
           });
-          console.log('sam >>>>> ', sam.success)
-          console.log('>>>>> bam bam bam <<<<')
         } catch (error) {
           console.error(`Error sending email to ${user.email}:`, error);
           continue;
