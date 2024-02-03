@@ -1,5 +1,3 @@
-import passport from "passport";
-import { Strategy } from 'passport-google-token';
 import dotenv from 'dotenv'
 import jwt from 'jsonwebtoken'
 
@@ -55,24 +53,6 @@ export const calculatePricesInCurrencies = (data: any, rates: any) => {
   });
   return result;
 };
-
-
-const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
-const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
-
-
-// passport.use(
-//   new Strategy(
-//     {
-//       clientID: GOOGLE_CLIENT_ID,
-//       clientSecret: GOOGLE_CLIENT_SECRET,
-//       callbackURL: "http://localhost:3000/auth/google/callback",
-//     },
-//     (accessToken, refreshToken, profile, done) => {
-//       done(null, profile);
-//     }
-//   )
-// );
 
 
 export const generateToken = async (userId, isRefreshToken = false) => {

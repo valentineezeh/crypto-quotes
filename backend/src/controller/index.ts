@@ -39,9 +39,7 @@ export const saveSubscribeUsers = async({ id, email }) => {
   }
 }
 
-export const getUser = async (token) => {
-
-  console.log('token >>>> ', token)
+export const getUser = async (token: string) => {
 
   const findUserQuery = `
     SELECT 1 FROM cryptoUsers WHERE email = $1
