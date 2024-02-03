@@ -66,3 +66,15 @@ export const getUser = async (token: string) => {
     }
   }
 }
+
+export const findAllSubscribedUsers = async () => {
+  const findAllSubscribedUser = `
+  SELECT cryptoID, email FROM SubscribeUsers
+  `
+  try {
+    const res = await pool.query(findAllSubscribedUser);
+    return { data: res.rows }
+  } catch(error) {
+    throw new Error('Can not retrieve all users')
+  }
+}

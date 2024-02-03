@@ -9,6 +9,7 @@ import { ApiHandler } from './datasources/apiHandler'
 import { logger } from './logger'
 import pool from './database/connection'
 import { getUser } from './controller'
+import { setupCronJob } from './scheduler'
 
 dotenv.config()
 
@@ -23,6 +24,7 @@ const server = new ApolloServer<ContextValue>({
   typeDefs: schema,
   resolvers,
 });
+
 
 const port = Number(process.env.PORT) || 5000
 
@@ -59,5 +61,7 @@ const { url } = await startStandaloneServer(server, {
   },
   listen: { port }
 })
+
+setupCronJob()
 
 logger.info(`Server is ready at ${url}`)

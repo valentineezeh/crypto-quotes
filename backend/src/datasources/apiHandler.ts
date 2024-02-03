@@ -19,7 +19,7 @@ export class ApiHandler extends RESTDataSource {
   private apiKey: string;
   private converterApiKey: string
 
-  constructor(options: { apiKey: string; converterApiKey: string; cache: KeyValueCache }){
+  constructor(options: { apiKey: string; converterApiKey: string; cache?: KeyValueCache }){
     super(options);
     this.apiKey = options.apiKey
     this.converterApiKey = options.converterApiKey
@@ -98,6 +98,7 @@ export class ApiHandler extends RESTDataSource {
           errorCheck: {}
         }
     }catch(error) {
+      console.log('error >>>> ', error)
       return {
         message: `Failed to send email to this email ${email}`,
         success: false,
