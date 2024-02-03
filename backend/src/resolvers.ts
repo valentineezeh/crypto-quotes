@@ -1,22 +1,10 @@
 import { saveSubscribeUsers } from './controller'
-import { authenticateGoogle, generateToken } from './utils'
+import { generateToken } from './utils'
+import dotenv from 'dotenv'
+import { getGoogleProfile } from './controller/google'
 
-type Google_Json_Type = {
-  _json: {
-    email: string;
-  given_name: string;
-  family_name: string;
-  }
-}
+dotenv.config()
 
-type GoogleProfile = {
-  profile: Google_Json_Type
-}
-
-type AuthData = {
-  data: GoogleProfile;
-  info: { code: string };
-}
 
 export const resolvers = {
   Query: {
@@ -51,74 +39,80 @@ export const resolvers = {
       return await dataSources.apiHandler.subscribeToCryptoQuotes({ id, email })
     },
     signUpGoogle: async (_, { accessToken }, ctx) => {
-      const { db, res, req } = ctx
-      const { pool } = db;
-
-      req.body = {
-        ...req.body,
-        accessToken
-      }
-
-      console.log('req.body >>>> ', req.body)
+     const { db } = ctx
 
       try {
-        const { data, info } = await authenticateGoogle(req, res) as AuthData
+        const data = await getGoogleProfile(accessToken)
 
-        if(info) {
-          switch (info.code) {
-            case 'ETIMEOUT': throw new Error('Failed to reach google: Try again');
-            default:
-              throw new Error('Something went wrong')
-          }
+      if (!data) {
+        return {
+          accessToken: ``,
+          refreshToken: ``,
+          errorCheck: { message: 'Failed to reach Google. Try again later.'},
+          success: false
         }
+      }
 
-        const _json = data.profile._json;
-        const { email } = _json;
-        const firstName = _json.given_name;
-        const lastName = _json.family_name;
+      const {
+        given_name,
+        family_name,
+        email,
+      } = data
 
-        let accessToken = '';
-        let refreshToken = '';
+      const firstName = given_name;
+      const lastName = family_name
 
-        const query = `
-        SELECT 1 FROM CryptoUsers WHERE email = $1
+      let access_Token = '';
+      let refreshToken = '';
+
+      const query = `
+        SELECT 1 FROM cryptoUsers WHERE email = $1
         `
+        const userExist = await db.query(query, [email])
 
-        const userExist = await pool.query(query, [email])
+        access_Token = await generateToken(email);
+        refreshToken = await generateToken(email, true);
 
         if(userExist.rows[0]) {
           return {
-            success: false,
-            message: "User already exist.",
-            errorCheck: {}
+            accessToken: `Bearer ${access_Token}`,
+            refreshToken: `Bearer ${refreshToken}`,
+            errorCheck: {},
+            success: true
           }
         }
 
         const createQuery = `
-          INSERT INTO CryptoUsers (email, firstName, lastName)
+          INSERT INTO cryptoUsers (email, firstName, lastName)
           VALUES ($1, $2, $3)
           RETURNING *;
           `
 
-      await pool.query(createQuery, [email.toLowerCase(), firstName, lastName])
+      const newUser = await db.query(createQuery, [email, firstName, lastName])
 
-      accessToken = await generateToken(userExist.rows[0].id);
-      refreshToken = await generateToken(userExist.rows[0].id, true);
-
-      console.log('accessToken >>>> ', accessToken)
-      console.log('refreshToken >?>>>> ', refreshToken)
-
+      if(!newUser.rows[0]){
         return {
-          accessToken: `Bearer ${accessToken}`,
-          refreshToken: `Bearer ${refreshToken}`
-        }
-
-      } catch(error) {
-        console.log('error >>>>> ', error)
-        return {
-          data: [],
+          accessToken: '',
+          refreshToken: '',
+          errorCheck: {
+            message: 'Error saving user in the DB'
+          },
           success: false,
-          errorCheck: error
+        }
+      }
+
+      return {
+        accessToken: `Bearer ${access_Token}`,
+        refreshToken: `Bearer ${refreshToken}`,
+        errorCheck: {},
+        success: true
+      }
+      } catch(error) {
+        return {
+          accessToken: '',
+          refreshToken: '',
+          errorCheck: error,
+          success: false,
         }
       }
     }

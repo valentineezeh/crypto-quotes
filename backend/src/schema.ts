@@ -19,16 +19,11 @@ export const schema = gql`
     errorCheck: JSON
   }
 
-  type User {
-    id: ID!,
-    name: String!,
-    email: String!,
-    password: String!
-  }
-
   type AuthResponse {
-    accessToken:String!
+    accessToken: String!
     refreshToken: String!
+    success: Boolean
+    errorCheck: JSON
   }
 
   type Query {

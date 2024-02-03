@@ -1,34 +1,43 @@
-import { useState, useEffect } from "react"
-import { useNavigate } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc'
 import { useGoogleLogin } from "@react-oauth/google";
 import { useMutation } from "@apollo/client";
 import { SIGN_UP_GOOGLE } from "../queries"
 import { ButtonLoader } from './common/ButtonLoader'
+import { toast } from 'react-toastify'
 
 export const Login = () => {
-  const [signUpGoogle,{ data, loading, error}]= useMutation(SIGN_UP_GOOGLE);
-  const [accessToken, setAccessToken] = useState('');
-  const navigate = useNavigate()
+  const [signUpGoogle,{ data, loading }]= useMutation(SIGN_UP_GOOGLE);
 
-  useEffect(() => {
-    if(accessToken){
-      signUpGoogle({variables:{accessToken}})
-      if(data && !error){
-      //navigate user to profile
-      navigate('/crypto-quotes')
-      }
+if(data?.signUpGoogle?.success){
+  window.location.href = ('/crypto-quotes')
+}
+
+
+const handleGoogleLogin = useGoogleLogin({
+  onSuccess: tokenResponse => {
+    const accessToken = tokenResponse.access_token
+    if (accessToken) {
+      signUpGoogle({
+        variables:{ accessToken },
+        onCompleted: (data) => {
+          if(data?.signUpGoogle?.success) {
+            localStorage.setItem('accessToken', data?.signUpGoogle?.accessToken)
+            localStorage.setItem('refreshToken', data?.signUpGoogle?.refreshToken)
+            toast.success('Welcome to Crypto Quotes')
+          }
+          if(!data?.signUpGoogle?.success) {
+            toast.error('Login was not successful')
+          }
+        },
+        onError: () => {
+          toast.error('Login was not successful')
+        },
+      })
     }
-},[accessToken, data, error, signUpGoogle, navigate])
-
-  const handleGoogleLogin = useGoogleLogin({
-    onSuccess: tokenResponse => {
-      console.log('tokenResponse.access_token >>> ', tokenResponse.access_token)
-      setAccessToken(tokenResponse.access_token)
-    },
-    onError: (error) => {
-      console.log('Login Failed ', error);
-    },
+  },
+  onError: (error) => {
+    toast.error('Login was not successful')
+  },
   })
 
   return (

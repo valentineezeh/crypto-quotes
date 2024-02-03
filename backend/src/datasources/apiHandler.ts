@@ -98,7 +98,6 @@ export class ApiHandler extends RESTDataSource {
           errorCheck: {}
         }
     }catch(error) {
-      console.log('error >>>> ', error)
       return {
         message: `Failed to send email to this email ${email}`,
         success: false,

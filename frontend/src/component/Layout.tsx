@@ -13,6 +13,6 @@ export const Layout = ({ Component }: layoutType) => {
         <img src={Logo} alt='logo' />
           {Component}
       </div>
-  </main>
+    </main>
   )
 }

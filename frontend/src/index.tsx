@@ -6,19 +6,30 @@ import './index.css';
 import 'react-toastify/dist/ReactToastify.css'
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {  ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
+import {  ApolloProvider, ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";
 import { GoogleOAuthProvider } from '@react-oauth/google'
+import { setContext } from '@apollo/client/link/context';
 
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-const url = "http://localhost:5000"
+const httpLink = createHttpLink({ uri: "http://localhost:5000" })
 // process.env.REACT_APP_API_ENDPOINT ||
 
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem('accessToken');
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `${token}` : '',
+    },
+  };
+});
+
 const client = new ApolloClient({
-  uri: url,
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
   defaultOptions: {
     watchQuery: {
@@ -31,7 +42,7 @@ const client = new ApolloClient({
 root.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
-      <GoogleOAuthProvider clientId={'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'}>
+      <GoogleOAuthProvider clientId='275342734926-ecck0q00r55ala4o522f248t42dpp4mq.apps.googleusercontent.com'>
         <App />
       </GoogleOAuthProvider>
       <ToastContainer />

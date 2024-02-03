@@ -1,8 +1,12 @@
 import { Layout, Form } from '../component'
+import { Navigation } from '../component/common/Nav'
 
 const SubscriptionPage = () => {
   return (
-    <Layout Component={<Form />} />
+    <>
+      <Navigation />
+      <Layout Component={<Form />} />
+    </>
   )
 }
 

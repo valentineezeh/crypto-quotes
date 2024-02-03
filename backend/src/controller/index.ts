@@ -1,3 +1,4 @@
+import jwt from 'jsonwebtoken'
 import pool from '../database/connection'
 
 export const saveSubscribeUsers = async({ id, email }) => {
@@ -33,6 +34,34 @@ export const saveSubscribeUsers = async({ id, email }) => {
     return {
       success: false,
       message: error.message,
+      errorCheck: error
+    }
+  }
+}
+
+export const getUser = async (token) => {
+
+  console.log('token >>>> ', token)
+
+  const findUserQuery = `
+    SELECT 1 FROM cryptoUsers WHERE email = $1
+    `;
+  const  { email } = jwt.verify(token, process.env.SECRET)
+  try {
+    const user = await pool.query(findUserQuery, [email]);
+    if(!user.rows[0]){
+      return {
+        success : false,
+        errorCheck: {}
+      }
+    }
+    return {
+      success: true,
+      errorCheck: {}
+    }
+  } catch(error) {
+    return {
+      success: false,
       errorCheck: error
     }
   }

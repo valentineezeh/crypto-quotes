@@ -24,10 +24,12 @@ export const SUBSCRIBE_FOR_CRYPTO_QUOTES = gql`
 `
 
 export const SIGN_UP_GOOGLE = gql `
-  mutation($accessToken:String!) {
-        signUpGoogle(accessToken:$accessToken) {
-           accessToken,
-           refreshToken
-        }
+  mutation signUpGoogle ($accessToken: String!) {
+    signUpGoogle(accessToken: $accessToken) {
+        accessToken
+        refreshToken
+        errorCheck
+        success
+    }
     }
 `;
