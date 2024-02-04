@@ -1,5 +1,6 @@
 CREATE TABLE SubscribeUsers (
     id SERIAL PRIMARY KEY,
     cryptoID FLOAT NOT NULL,
-    email VARCHAR(100)  NOT NULL
+    email VARCHAR(100)  NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

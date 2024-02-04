@@ -22,7 +22,6 @@ const handleGoogleLogin = useGoogleLogin({
         onCompleted: (data) => {
           if(data?.signUpGoogle?.success) {
             localStorage.setItem('accessToken', data?.signUpGoogle?.accessToken)
-            localStorage.setItem('refreshToken', data?.signUpGoogle?.refreshToken)
             toast.success('Welcome to Crypto Quotes')
           }
           if(!data?.signUpGoogle?.success) {
@@ -46,10 +45,11 @@ const handleGoogleLogin = useGoogleLogin({
         loading ? <ButtonLoader /> : (
           <button
             className='button'
+            data-testid='login-button'
             onClick={() => handleGoogleLogin()}
             style={{ marginTop: '20px' }}
             >
-              <div className='google-login-button'>
+              <div className='google-login-button' data-testid='login-button2'>
                 <FcGoogle style={{fontSize:'2rem'}} />
                 <span style={{fontSize:'1.1rem'}}>
                   Login with GMail

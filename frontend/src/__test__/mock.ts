@@ -1,4 +1,4 @@
-import { GET_CRYPTO_CURRENCIES, SUBSCRIBE_FOR_CRYPTO_QUOTES } from '../queries'
+import { GET_CRYPTO_CURRENCIES, SUBSCRIBE_FOR_CRYPTO_QUOTES, SIGN_UP_GOOGLE } from '../queries'
 
 export const mocks = [
   { request: {
@@ -32,4 +32,22 @@ export const mocks = [
     }
   }
 }
+];
+
+export const loginMocks = [
+  {
+    request: {
+      query: SIGN_UP_GOOGLE,
+      variables: { accessToken: 'mockAccessToken' },
+    },
+    result: {
+      data: {
+        signUpGoogle: {
+          success: true,
+          accessToken: 'mockAccessToken',
+          errorCheck: {},
+        },
+      },
+    },
+  },
 ];

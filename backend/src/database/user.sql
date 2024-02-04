@@ -1,7 +1,8 @@
-CREATE TABLE CryptoUsers (
+CREATE TABLE SubscribeUsers (
     id SERIAL PRIMARY KEY,
-    firstName VARCHAR(100) NOT NULL,
-    lastName VARCHAR(100) NOT NULL,
+    cryptoID FLOAT NOT NULL,
     email VARCHAR(100) NOT NULL,
+    "LIMIT" INTEGER,
+    "OFFSET" INTEGER,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
