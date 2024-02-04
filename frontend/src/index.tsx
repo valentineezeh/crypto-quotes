@@ -15,7 +15,7 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-const httpLink = createHttpLink({ uri: process.env.REACT_APP_API_ENDPOINT || "http://localhost:5000" })
+const httpLink = createHttpLink({ uri: process.env.NODE_ENV === 'production' ? process.env.REACT_APP_API_ENDPOINT : "http://localhost:5000" })
 
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem('accessToken');

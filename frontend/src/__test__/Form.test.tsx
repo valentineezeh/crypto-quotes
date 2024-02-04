@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { screen, fireEvent, render } from '@testing-library/react'
+import { screen, fireEvent, render, waitFor } from '@testing-library/react'
 import { Form } from '../component/Form'
 import { cleanup, renderApollo} from './utils';
 import { mocks } from './mock'
@@ -8,7 +8,7 @@ import LargeSelect from "../component/common/Dropdown";
 
 describe ('Form', () => {
   afterAll(cleanup)
-  const renderComponent = () => {
+  const renderComponent = async () => {
     return renderApollo(<Form />, {mocks, addTypename: false,})
   };
   it('should render the form with email and select inputs', async () => {
@@ -16,7 +16,7 @@ describe ('Form', () => {
 
     const emailInput = await screen.findByTestId('email')
     const selectInput = await screen.findByTestId('select-dropdown')
-    const submitButton = screen.getByText('Submit')
+    const submitButton = await screen.findByText('Submit')
 
     expect(emailInput).toBeInTheDocument()
     expect(selectInput).toBeInTheDocument()
@@ -33,7 +33,7 @@ describe ('Form', () => {
       options={[{ id: 1, name: 'Bitcoin', symbol: 'BTC' }]}
       setSelectedOption={() => {}}
       selectedOption={{ value: 1, name: 'Bitcoin', symbol: 'BTC', error: false }}
-      setValue={(value) => { selectedValue = value; }} // Mock setValue function
+      setValue={(value) => { selectedValue = value; }}
       error=''
     />
     )
@@ -48,8 +48,11 @@ describe ('Form', () => {
     fireEvent.click(selectInput[1]);
     fireEvent.click(submitButton);
 
-    const option = screen.getByTestId('listItem');
-    fireEvent.click(option);
+
+    const option = await screen.findByTestId('listItem');
+    await waitFor(async () => {
+      await fireEvent.click(option);
+    })
 
     expect(selectedValue).toBe('1');
 

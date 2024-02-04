@@ -11,6 +11,7 @@ export const schema = gql`
   type CryptoCurrencies {
     data: [CryptoCurrenciesData]
     success: Boolean
+    errorCheck: JSON
   }
 
   type SubscribeForCryptoQuotesResult {

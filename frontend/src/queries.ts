@@ -9,6 +9,7 @@ export const GET_CRYPTO_CURRENCIES = gql`
       symbol
     }
     success
+    errorCheck
   }
   }
 `

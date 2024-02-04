@@ -52,10 +52,10 @@ const { url } = await startStandaloneServer(server, {
     const { cache } = server;
     return {
       db: pool,
-      converterApiKey,
       apiKey,
       dataSources: {
-        apiHandler: new ApiHandler({ cache, apiKey, converterApiKey })
+        apiHandler: new ApiHandler({ cache, apiKey, converterApiKey }),
+        token: token
       }
     }
   },

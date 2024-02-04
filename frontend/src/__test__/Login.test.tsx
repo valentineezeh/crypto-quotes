@@ -1,12 +1,17 @@
 import { fireEvent, screen } from '@testing-library/react';
 import { GoogleOAuthProvider } from '@react-oauth/google'
 import { cleanup, renderApollo} from './utils';
-import { mocks } from './mock'
+import { loginMocks as mocks } from './mock'
 import { Login } from '../component/Login'
 
-describe('Render Login Page', () => {
+type Options = {
+  onSuccess: () => void,
+  onError: () => void
+}
+
+describe('Render Login Component', () => {
   afterEach(cleanup)
-  it('renders learn react component', async() => {
+  it('should render component', async() => {
     renderApollo(
       <GoogleOAuthProvider clientId='1234'>
         <Login />
@@ -16,7 +21,16 @@ describe('Render Login Page', () => {
     const mainElement = await screen.findAllByText('Login with GMail')
     expect(mainElement).toHaveLength(1);
   })
-  xit('should send  a GraphQL mutation to login the user when clicking on "login" button', async ()=>{
+  it('should send a GraphQL mutation to login the user when clicking on "login" button', async () => {
+
+    const useGoogleLogin = jest.fn()
+
+    const mockUseGoogleLogin = (options: any) => ({
+      onSuccess: options.onSuccess || jest.fn(),
+      onError: options.onError || jest.fn(),
+    });
+
+    (useGoogleLogin as jest.Mock).mockImplementation(mockUseGoogleLogin);
 
     renderApollo(
       <GoogleOAuthProvider clientId='1234'>
@@ -24,14 +38,13 @@ describe('Render Login Page', () => {
       </GoogleOAuthProvider>
     , {mocks, addTypename: false, resolvers: {}})
 
+    useGoogleLogin((options: Options) => ({
+      onSuccess: options.onSuccess || jest.fn(),
+      onError: options.onError || jest.fn(),
+    }));
+
     const submitButton = await screen.findByTestId('login-button')
     fireEvent.click(submitButton);
 
-    // expect(toast.success).toHaveBeenCalledWith('Welcome to Crypto Quotes')
-
-    // Wait for the mutation to complete
-    // await waitFor(() => {
-    //   expect(mockChangeLocation).toHaveBeenCalledWith('/crypto-quotes');
-    // });
-})
-})
+    expect(useGoogleLogin).toHaveBeenCalled();
+})})

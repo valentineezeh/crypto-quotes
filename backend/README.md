@@ -56,6 +56,21 @@ query Query {
 }
 ```
 
+### Response when authentication is required ({ success: false })
+```
+{
+  "data": {
+    "cryptoCurrencies": {
+      "data": [],
+      "success": false,
+      "errorCheck": {
+        "message": "Authentication is required to access this Endpoint."
+      }
+    }
+  }
+}
+```
+
 ### Mutation Request
 - Mutation request to sign up with Google
 ```
@@ -75,6 +90,48 @@ mutation Mutation($email: String!, $subscribeForCryptoQuotesId: String!) {
     message
     success
     errorCheck
+  }
+}
+```
+
+### Response when authentication is required ({ success: false })
+```
+{
+  "data": {
+    "subscribeForCryptoQuotes": {
+      "message": null,
+      "success": false,
+      "errorCheck": {
+        "message": "Authentication is required to access this Endpoint."
+      }
+    }
+  }
+}
+```
+
+### Response when authenticated user has already subscribed for a crypto coin quotes ({ success: false })
+
+```
+{
+  "data": {
+    "subscribeForCryptoQuotes": {
+      "message": "This user has already subscribe to this crypto quotes.",
+      "success": false,
+      "errorCheck": {}
+    }
+  }
+}
+```
+
+### Response when authenticated user subscribe to a crypto quote ({ success: true })
+```
+{
+  "data": {
+    "subscribeForCryptoQuotes": {
+      "message": "Email sent! Crypto Quote has successfully be sent to this email mail@gmail.com.",
+      "success": true,
+      "errorCheck": {}
+    }
   }
 }
 ```

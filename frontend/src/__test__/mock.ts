@@ -10,7 +10,8 @@ export const mocks = [
         success: true,
         data:  [
           { id: 1, name: 'Bitcoin', symbol: 'BTC' },
-        ]
+        ],
+        errorCheck: {}
       }
     }
   }

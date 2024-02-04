@@ -9,6 +9,14 @@ dotenv.config()
 export const resolvers = {
   Query: {
     cryptoCurrencies: async (_source, __args, { dataSources }) => {
+      if (!dataSources.token) {
+        return {
+          data: [],
+          errorCheck: { message: 'Authentication is required to access this Endpoint.'},
+          success: false
+        }
+      }
+
       try {
         const { data } = await dataSources.apiHandler.getCryptoCurrencies()
 
@@ -26,6 +34,13 @@ export const resolvers = {
   },
   Mutation: {
     subscribeForCryptoQuotes:  async (_, { email, id }, { dataSources }) => {
+      if (!dataSources.token) {
+        return {
+          accessToken: ``,
+          errorCheck: { message: 'Authentication is required to access this Endpoint.'},
+          success: false
+        }
+      }
       const { success, message, errorCheck } = await saveSubscribeUsers({id, email})
 
       if(!success) {
