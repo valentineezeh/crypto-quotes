@@ -5,8 +5,8 @@ export const PageLoader = () => {
     <div className='page-loader'>
       <TailSpin
         visible={true}
-        height="150"
-        width="150"
+        height="100"
+        width="100"
         color="#0c3756"
         ariaLabel="tail-spin-loading"
         radius="1"
