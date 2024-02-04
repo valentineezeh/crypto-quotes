@@ -50,6 +50,9 @@ API Endpoint: https://crypto-quotes-production.up.railway.app/
 ##
 Deployment: https://railway.app
 
+# Note
+- To get more information about the backend and frontend, kindly cd into their respect folder and read the README file.
+
 ## AUTHOR
 [Valentine Ezeh](https://github.com/valentineezeh/crypto-quotes)
 
