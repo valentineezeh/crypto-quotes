@@ -31,6 +31,7 @@ Crypto quotes is an application that send latest crypto quotes to a user email w
 - The third party APIs is on a Basic plan which comes with access restrictions, making me not have full access to specific API endpoints.
 - Furthermore, because  of the usage of google's api, only a limited number of requests per day may be allowed.
 - The app is not fully responsive, it's designed for desktop viewing only.
+- The project is deployed on Railway which uses a free tier, so there might be some delays due to server response time.
 
 # To Install
 - Download or clone the repository
@@ -46,8 +47,7 @@ Crypto quotes is an application that send latest crypto quotes to a user email w
 ##
 API Endpoint: https://crypto-quotes-production.up.railway.app/
 
-# Deployment
-- The project is deployed on Railway which uses a free tier, so there might be some delays due to server response time.
+## Deployment: https://railway.ap
 
 ## AUTHOR
 [Valentine Ezeh](https://github.com/valentineezeh/crypto-quotes)
