@@ -47,7 +47,8 @@ Crypto quotes is an application that send latest crypto quotes to a user email w
 ##
 API Endpoint: https://crypto-quotes-production.up.railway.app/
 
-## Deployment: https://railway.ap
+##
+Deployment: https://railway.ap
 
 ## AUTHOR
 [Valentine Ezeh](https://github.com/valentineezeh/crypto-quotes)
