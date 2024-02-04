@@ -139,7 +139,7 @@
   list-style-type: none;
 }
 
-.logout-button{
+.logout-button {
   width: fit-content;
   background-color: #0c3756;
   color: white;
@@ -150,6 +150,12 @@
   margin-bottom: 40px;
   height: 50px;
   font-size: 18px;
+}
+
+.page-loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 

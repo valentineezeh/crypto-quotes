@@ -1,6 +1,7 @@
 import { lazy,  Suspense, useEffect, useState } from 'react';
 import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom"
 import './App.css';
+import { PageLoader } from './pages/PageLoader'
 
 const LoginPage = lazy(() => import('./pages/LoginPage'))
 const SubscriptionPage = lazy(() => import('./pages/SubscriptionPage'))
@@ -20,7 +21,7 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<PageLoader/>}>
         <Routes>
           <Route
             path="/"
