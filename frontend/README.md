@@ -19,6 +19,7 @@ Welcome to crypto-quotes frontend readMe..
 - Go through the .envSample file  in the directories, rename it as a ".env" file and fill in your own values.
 - Type `npm install` to install all dependencies
 - Type `npm run dev` to run frontend app locally
+- Type `npm run createDb` to create Database tables
 - Type `npm run test` to run the test suits on the app
 
 ##
