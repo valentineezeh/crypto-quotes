@@ -10,7 +10,7 @@ What would you add to your solution if you had more time?
 
 ##
 How long did you spend on the coding assignment
--  I spent about 3 hours working on this problem and another hour or so researching how to approach it daily within the 7days deadline.
+-  I spent about 2 hours working on this problem and another hour or so researching how to approach it daily within the 7days deadline.
 
 ##
 What do you think about this assessment?
