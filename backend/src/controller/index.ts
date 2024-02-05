@@ -75,7 +75,6 @@ export const findAllSubscribedUsers = async () => {
     const res = await pool.query(findAllSubscribedUser);
     return res.rows
   } catch(error) {
-    console.log('error in fetch all user method >>>>>> ', error)
     throw new Error('Can not retrieve all users')
   }
 }

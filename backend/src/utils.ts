@@ -47,7 +47,7 @@ type data = (Quote & {
 
 export const calculatePricesInCurrencies = (data: data, rates: object) => {
   const result = [];
-  data.forEach((item: any) => {
+  data.forEach((item) => {
     Object.entries(rates).forEach(([currency, rate]) => {
       const newItem = { ...item };
       newItem.currency = currency;
@@ -59,7 +59,7 @@ export const calculatePricesInCurrencies = (data: data, rates: object) => {
 };
 
 
-export const generateToken = async (userId) => {
+export const generateToken = async (userId: string) => {
   const payload = { userId }
 
   const expiresIn = process.env.ACCESS_TOKEN_EXPIRATION
