@@ -7,7 +7,7 @@
     "test": "jest",
     "compile": "tsc",
     "start": "npm run compile && nodemon --experimental-specifier-resolution=node ./dist/index.js",
-    "createDb": "psql -U postgres -f ./src/db/data.sql"
+    "createDb": "psql -U postgres -f ./src/database/data.sql"
   },
   "keywords": [],
   "author": "valentine ezeh <val.ezeh15@gmail.com>",
